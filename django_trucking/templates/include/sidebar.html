@@ -1,9 +1,9 @@
 {%load freight_tag%}
 
 <div class="search-bar w3layouts-newsletter">
-    <h3 class="sear-head editContent">Поиск фильма</h3>
+    <h3 class="sear-head editContent">Поиск грузоперевозок</h3>
     <form action="{% url 'search' %}" method="get" class="d-flex editContent">
-        <input type="search" placeholder="Введите название..." name="q" class="form-control" required="">
+        <input type="search" placeholder="Поиск..." name="q" class="form-control" required="">
         <button type="submit" class="btn1 btn">
             <span class="fa fa-search" aria-hidden="true"></span>
         </button>
@@ -12,7 +12,18 @@
     <form action="{% url 'filter' %}" method="get" name="filter">
     <!--preference -->
     <div class="left-side my-4">
-        <h3 class="sear-head editContent" >Жанры</h3>
+        <h3 class="sear-head editContent" >Типы загрузки</h3>
+        <ul class="w3layouts-box-list">
+            {%for type in view.get_types%}
+            <li class="editContent" >
+                <input type="checkbox" class="checked" name="type" value="{{type.id}}">
+                <span class="span editContent" >{{type.name}}</span>
+            </li> 
+            {%endfor%}        
+        </ul>
+    </div>
+    <div class="left-side my-4">
+        <h3 class="sear-head editContent" >Оплата</h3>
         <ul class="w3layouts-box-list">
             {%for type in view.get_types%}
             <li class="editContent" >
@@ -24,10 +35,22 @@
     </div>
 
 
+    <div class="left-side my-4">
+        <h3 class="sear-head editContent" >Типы кузова</h3>
+        <ul class="w3layouts-box-list">
+            {%for type in view.get_types%}
+            <li class="editContent" >
+                <input type="checkbox" class="checked" name="type" value="{{type.id}}">
+                <span class="span editContent" >{{type.name}}</span>
+            </li> 
+            {%endfor%}        
+        </ul>
+    </div>
+
     <!-- // preference -->
     <!-- discounts -->
     <div class="left-side">
-        <h3 class="sear-head editContent" >Год</h3>
+        <h3 class="sear-head editContent" >Масса груза, т</h3>
         <ul class="w3layouts-box-list">
             {%for freight in view.get_years%}
             <li class="editContent" >
@@ -37,11 +60,11 @@
             {%endfor%}
         </ul>
     </div>
-    <button type="submit">Найти</button>
+    <button type="submit" class="btng">Найти</button>
     </form>
     <!-- //discounts -->
     <!-- reviews -->
-    <div class="customer-rev left-side my-4">
+    <!--<div class="customer-rev left-side my-4">
         <h3 class="sear-head editContent" >Рейтинг</h3>
         <ul class="w3layouts-box-list">
             <li>
@@ -95,7 +118,7 @@
                 </a>
             </li>
         </ul>
-    </div>
+    </div>-->
     <!-- //reviews -->
     <!-- deals -->
    {%get_last_freights count=3%}

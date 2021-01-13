@@ -169,11 +169,11 @@ nav ul li {
 /* Background color change on Hover */
 
 nav .menu li a:hover {
-    color: #ff4c4c !important;
+    color:#5ba4cd !important;
 }
 
 .menu li.active a {
-    color: #ff4c4c !important;
+    color: #5ba4cd !important;
 }
 
 /* Hide Dropdowns by Default
@@ -382,7 +382,7 @@ li > a:only-child:after {
 /*--/banner --*/
 
 .main-banner {
-    background: url(../images/banner.jpg) no-repeat center;
+    background: url(../images/truck.jpg) no-repeat center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -393,7 +393,7 @@ li > a:only-child:after {
 }
 
 .main-banner.inner {
-    background: url(../images/banner.jpg) no-repeat center;
+    background: url(../images/truck.jpg) no-repeat center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -406,7 +406,7 @@ li > a:only-child:after {
 .bg1 {
     background-color: rgba(0, 0, 0, 0);
     margin-top: 0;
-    background-image: url('../single-post-pic.jpg');
+    background-image: url('../images/truck.jpg');
 }
 
 /*-- place holder --*/
@@ -459,7 +459,7 @@ li > a:only-child:after {
     padding: 11px 31px;
     font-size: 13px;
     letter-spacing: 1px;
-    color: #ff4c4c;
+    color: #5ba4cd;
     border-radius: 0px;
     display: inline-block;
     box-shadow: 0 12px 60px rgba(0, 0, 0, .2);
@@ -542,7 +542,7 @@ ul.events-icons.new-inf img {
 .feature-grids span {
     font-size: 1.5em;
     text-align: center;
-    color: #ff4c4c;
+    color: #5ba4cd;
     line-height: 3em;
 }
 
@@ -559,7 +559,7 @@ ul.events-icons.new-inf img {
 }
 
 .bottom-gd2-active {
-    background: #ff4c4c;
+    background: #5ba4cd;
     transition: 2s all;
     -webkit-transition: 2s all;
     -moz-transition: 2s all;
@@ -589,7 +589,7 @@ ul.events-icons.new-inf img {
 }
 
 ul.tic-info li span {
-    color: #ff4c4c;
+    color: #5ba4cd;
 }
 
 ul.tic-info li {
@@ -626,7 +626,7 @@ ul.tic-info li {
 span.money {
     font-size: 1em;
     font-weight: 800;
-    color: #ff4c4c;
+    color: #5ba4cd;
     letter-spacing: 2px;
 }
 
@@ -788,7 +788,7 @@ ul.list-unstyled.w3layouts-icons.clients li {
 
 ul.list-unstyled.w3layouts-icons.clients li span {
     font-size: 0.8em;
-    color: #ff4c4c;
+    color: #5ba4cd;
     margin: 0 0.2em;
 }
 
@@ -849,7 +849,7 @@ li.breadcrumb-item {
 }
 
 li.breadcrumb-item a {
-    color: #ff4c4c;
+    color: #5ba4cd;
 }
 
 /*--//breadcrumbr--*/
@@ -1036,7 +1036,7 @@ h3.sear-head {
     transition: all .2s ease-in-out;
     font-family: Roboto, sans-serif;
     font-size: 16px;
-    color: #6163b9
+    color: #5ba4cd
 }
 
 @media only screen and (max-width: 767px) {
@@ -1096,13 +1096,13 @@ h3.sear-head {
     .pagination__item.active:hover
     .pagination__link {
         color: #fff;
-        background: #6658af
+        background: #5ba4cd
     }
 }
 
 .pagination__item.active .pagination__link {
     color: #fff;
-    background: #6658af
+    background: #5ba4cd
 }
 
 .pagination__item--dots .pagination__link {
@@ -1148,8 +1148,8 @@ form.w3layouts-newsletter {
     background: #efeeee;
 }
 
-.w3layouts-newsletter button.btn1 {
-    color: #ff4c4c;
+.w3layouts-newsletter button.btn1, .btng {
+    color: white;
     font-size: 17px;
     letter-spacing: 1px;
     padding: 14px 0;
@@ -1158,7 +1158,7 @@ form.w3layouts-newsletter {
     -webkit-transition: 0.5s all;
     -moz-transition: 0.5s all;
     transition: 0.5s all;
-    background: #1e272e;
+    background:#006551;
     font-weight: 600;
     cursor: pointer;
     border-radius: 0;
@@ -1359,7 +1359,7 @@ ul.w3layouts-icons li a {
 }
 
 .cpy-right p a:hover {
-    color: #ff6b6b;
+    color: #5ba4cd;
 }
 
 .media img {
@@ -1388,7 +1388,7 @@ a.move-top span {
 
 @media (max-width: 1366px) {
     .main-banner {
-        min-height: 45em;
+        min-height: 40em;
     }
 
     .banner-info {

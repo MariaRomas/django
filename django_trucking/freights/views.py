@@ -19,7 +19,7 @@ class FreightsView(TypeYear, ListView):
     """Список грузов"""
     model = Freight
     queryset = Freight.objects.filter(draft=False)
-    paginate_by = 1
+    paginate_by = 5
 
 class AddStarRating(View):
     """Добавление рейтинга фильму"""

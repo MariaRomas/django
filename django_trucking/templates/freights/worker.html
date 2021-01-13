@@ -12,7 +12,7 @@
 {% block freight %}
     <div class="left-ads-display col-lg-8">
         <div class="row">
-            <div class="desc1-left col-md-6">
+            <div class="desc1-left col-md-3">
                 <img src="{{ worker.image.url }}" class="img-fluid" alt="">
             </div>
             <div class="desc1-right col-md-6 pl-lg-4">
@@ -23,17 +23,14 @@
                 <ul>
                     <li>
                         <span><b>Возраст:</b> {{ worker.age }} лет</span></li>
-                    <li>
-                        <span><b>Диспетчер:</b>
-                            {% for freight in worker.freight_director.all %}
-                                {{ freight.title }}
-                            {% endfor %}
-                        </span>
-                    </li>
-                    <li><span><b>Водитель:</b>
+                    
+                    <li><span><b>Грузоперевозки:</b>
                         {% for freight in worker.freight_worker.all %}
                             {{ freight.title }}
                         {% endfor %}
+                        {% for freight in worker.freight_director.all %}
+                        {{ freight.title }}
+                    {% endfor %}
                     </span>
                     </li>
                 </ul>
@@ -43,7 +40,7 @@
             <h3 class="shop-sing editContent">
                 О {{ worker.name }}
             </h3>
-            <p class="editContent">
+            <p style="width:100%" class="editContent">
                 {{ worker.description|safe }}
             </p>
         </div>
