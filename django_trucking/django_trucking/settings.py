@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
-    'freights'
+    'freights',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+    'allauth',
+    'allauth.account',
+    
 ]
 
 MIDDLEWARE = [
@@ -50,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 ]
 
 ROOT_URLCONF = 'django_trucking.urls'
@@ -83,6 +89,10 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -115,6 +125,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+LOGIN_REDIRECT_URL = "/"
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -194,3 +209,5 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+SITE_ID = 1
