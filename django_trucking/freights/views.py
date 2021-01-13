@@ -19,6 +19,7 @@ class FreightsView(TypeYear, ListView):
     """Список грузов"""
     model = Freight
     queryset = Freight.objects.filter(draft=False)
+    paginate_by = 1
 
 class AddStarRating(View):
     """Добавление рейтинга фильму"""
@@ -62,12 +63,19 @@ class WorkerView(TypeYear, DetailView):
 
 class FilterFreightsView(TypeYear, ListView):
     """Фильтр фильмов"""
+    paginate_by = 2
     def get_queryset(self):
         queryset = Freight.objects.filter(
             Q(year__in=self.request.GET.getlist("year")) |
-            Q(types__in=self.request.GET.getlist("type"))
-        )
+            Q(types__in=self.request.GET.getlist("types"))
+        ).distinct()
         return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["year"] = ''.join([f"year={x}&" for x in self.request.GET.getlist("year")])
+        context["type"] = ''.join([f"type={x}&" for x in self.request.GET.getlist("type")])
+        return context
 
 class JsonFilterFreightsView(ListView):
     """Фильтр фильмов в json"""

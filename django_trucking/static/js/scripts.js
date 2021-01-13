@@ -11,15 +11,16 @@ function ajaxSend(url, params) {
         .catch(error => console.error(error))
 }
 
-const forms = document.querySelector('form[name=filter]');
-
-forms.addEventListener('submit', function (e) {
-    // Получаем данные из формы
-    e.preventDefault();
-    let url = this.action;
-    let params = new URLSearchParams(new FormData(this)).toString();
-    ajaxSend(url, params);
-});
+// Filter movies
+// const forms = document.querySelector('form[name=filter]');
+//
+// forms.addEventListener('submit', function (e) {
+//     // Получаем данные из формы
+//     e.preventDefault();
+//     let url = this.action;
+//     let params = new URLSearchParams(new FormData(this)).toString();
+//     ajaxSend(url, params);
+// });
 
 function render(data) {
     // Рендер шаблона
@@ -31,7 +32,7 @@ function render(data) {
 }
 
 let html = '\
-{{#movies}}\
+{{#freights}}\
     <div class="col-md-4 product-men">\
         <div class="product-shoe-info editContent text-center mt-lg-4">\
             <div class="men-thumb-item">\
@@ -57,6 +58,9 @@ let html = '\
         </div>\
     </div>\
 {{/freights}}'
+
+
+// Add star rating
 const rating = document.querySelector('form[name=rating]');
 
 rating.addEventListener("change", function (e) {
