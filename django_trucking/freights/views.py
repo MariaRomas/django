@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
-from .models import Freight
+from .models import Freight, Category
 from .forms import ReviewForm
 class FreightsView(ListView):
     """Список грузов"""
     model = Freight
     queryset = Freight.objects.filter(draft=False)
+
+   
     
 
 class FreightDetailView(DetailView):
