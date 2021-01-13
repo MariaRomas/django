@@ -27,11 +27,15 @@
                                 </li>
                                 <li style="list-style: none">
                                     <span><b>Режиссер:</b>{% for director in freight.directors.all %}
-                                        {{director.name}}
+                                        <a href="{{ director.get_absolute_url }}">
+                                            {{ director.name }}
+                                        </a>
                                     {%endfor%} </span></li>
                                 <li style="list-style: none"><span><b>Актеры:</b> 
                                     {% for worker in freight.workers.all %}
-                                    {{worker.name}}
+                                    <a href="{{ worker.get_absolute_url }}">
+                                        {{ worker.name }}
+                                </a>
                                 {%endfor%}
                                 </span></li>
                                 <li style="list-style: none"><span><b>Жанр:</b> {% for type in freight.types.all %}

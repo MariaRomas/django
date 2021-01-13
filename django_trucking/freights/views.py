@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
-from .models import Freight, Category
+from .models import Freight, Category, Worker
 from .forms import ReviewForm
 class FreightsView(ListView):
     """Список грузов"""
@@ -28,3 +28,9 @@ class AddReview(View):
                 form.freight = freight
                 form.save()
                 return redirect(freight.get_absolute_url())
+
+class WorkerView(DetailView):
+    """Вывод информации о работнике"""
+    model = Worker
+    template_name = 'freights/worker.html'
+    slug_field = "name"
