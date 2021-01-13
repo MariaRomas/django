@@ -5,6 +5,8 @@ from .models import Category, Type, Freight, Details, Worker, Rating, RatingStar
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
+
+
 class FreightAdminForm(forms.ModelForm):
     description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
 
@@ -112,7 +114,7 @@ class WorkerAdmin(admin.ModelAdmin):
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     """Рейтинг"""
-    list_display = ("freight", "star", "ip")
+    list_display = ("star", "freight",  "ip")
 
 
 @admin.register(Details)
