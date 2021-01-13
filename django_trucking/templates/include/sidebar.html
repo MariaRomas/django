@@ -7,59 +7,36 @@
             <button class="btn1 btn" ><span class="fa fa-search" aria-hidden="true" ></span></button>
         </form>
     </div>
+    <form action="{% url 'filter' %}" method="get">
     <!--preference -->
     <div class="left-side my-4">
         <h3 class="sear-head editContent" >Жанры</h3>
         <ul class="w3layouts-box-list">
+            {%for type in view.get_types%}
             <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >Аниме</span>
-            </li>
-                <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >Боевики</span>
-            </li>
-            <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >Комедии</span>
-            </li>
-            <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >Ужасы</span>
-            </li>
+                <input type="checkbox" class="checked" name="type" value="{{type.id}}">
+                <span class="span editContent" >{{type.name}}</span>
+            </li> 
+            {%endfor%}        
         </ul>
     </div>
+
+
     <!-- // preference -->
     <!-- discounts -->
     <div class="left-side">
         <h3 class="sear-head editContent" >Год</h3>
         <ul class="w3layouts-box-list">
+            {%for freight in view.get_years%}
             <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >2020</span>
+                <input type="checkbox" class="checked" name="year" value="{{freight.year}}">
+                <span class="span editContent" >{{freight.year}}</span>
             </li>
-            <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >2019</span>
-            </li>
-            <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >2018</span>
-            </li>
-            <li>
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >2017</span>
-            </li>
-            <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >2016</span>
-            </li>
-            <li class="editContent" >
-                <input type="checkbox" class="checked">
-                <span class="span editContent" >2015</span>
-            </li>
+            {%endfor%}
         </ul>
     </div>
+    <button type="submit">Найти</button>
+    </form>
     <!-- //discounts -->
     <!-- reviews -->
     <div class="customer-rev left-side my-4">
