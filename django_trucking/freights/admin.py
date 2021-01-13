@@ -1,7 +1,16 @@
+from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Category, Type, Freight, Details, Worker, Rating, RatingStar, Reviews
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
+
+class FreightAdminForm(forms.ModelForm):
+    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Freight
+        fields = '__all__'
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -26,6 +35,7 @@ class FreightAdmin(admin.ModelAdmin):
     list_filter = ("category", "year")
     search_fields = ("title", "category__name")
     inlines = [ DetailsInline, ReviewInline]
+    form = FreightAdminForm
     save_on_top = True
     save_as = True
     list_editable = ("draft",)
