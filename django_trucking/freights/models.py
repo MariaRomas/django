@@ -94,7 +94,6 @@ class Details(models.Model):
     """Детали"""
     title = models.CharField("Заголовок", max_length=100)
     description = models.TextField("Описание")
-    image = models.ImageField("Изображение", upload_to="details/")
     freight = models.ForeignKey(Freight, verbose_name="Грузоперевозка", on_delete=models.CASCADE)
 
     def __str__(self):
