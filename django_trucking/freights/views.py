@@ -1,28 +1,29 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import View
-from .models import Freight, Category, Worker, Type, Rating
+from .models import Freight, Category, Worker, Type, Rating, Pays
 from .forms import ReviewForm, RatingForm
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 
 
-class TypeYear:
-    """Типы и года выхода фильмов"""
+class TypePay:
+    """Типы загрузки и оплаты"""
     def get_types(self):
         return Type.objects.all()
+        
+    def get_pays(self):
+        return Pays.objects.all()
 
-    def get_years(self):
-        return Freight.objects.filter(draft=False).values("year")
 
-class FreightsView(TypeYear, ListView):
+class FreightsView(TypePay, ListView):
     """Список грузов"""
     model = Freight
     queryset = Freight.objects.filter(draft=False)
     paginate_by = 5
 
 class AddStarRating(View):
-    """Добавление рейтинга фильму"""
+    """Добавление рейтинга грузоперевозке"""
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         if x_forwarded_for:
@@ -32,7 +33,7 @@ class AddStarRating(View):
         return ip  
     
 
-class FreightDetailView(TypeYear, DetailView):
+class FreightDetailView(TypePay, DetailView):
     """Полное описание грузоперевозки"""
     model = Freight
     slug_field = "url"
@@ -55,35 +56,35 @@ class AddReview(View):
                 form.save()
                 return redirect(freight.get_absolute_url())
 
-class WorkerView(TypeYear, DetailView):
+class WorkerView(TypePay, DetailView):
     """Вывод информации о работнике"""
     model = Worker
     template_name = 'freights/worker.html'
     slug_field = "name"
 
-class FilterFreightsView(TypeYear, ListView):
-    """Фильтр фильмов"""
+class FilterFreightsView(TypePay, ListView):
+    """Фильтр грузоперевозок"""
     paginate_by = 2
     def get_queryset(self):
         queryset = Freight.objects.filter(
-            Q(year__in=self.request.GET.getlist("year")) |
-            Q(types__in=self.request.GET.getlist("types"))
+            Q(types__in=self.request.GET.getlist("type"))|
+            Q(pays__in=self.request.GET.getlist("pay"))
         ).distinct()
         return queryset
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["year"] = ''.join([f"year={x}&" for x in self.request.GET.getlist("year")])
         context["type"] = ''.join([f"type={x}&" for x in self.request.GET.getlist("type")])
+        context["pay"] = ''.join([f"pay={x}&" for x in self.request.GET.getlist("pay")])
         return context
 
 class JsonFilterFreightsView(ListView):
-    """Фильтр фильмов в json"""
+    """Фильтр грузов в json"""
     def get_queryset(self):
         queryset = Freight.objects.filter(
-            Q(year__in=self.request.GET.getlist("year")) |
+            Q(pays__in=self.request.GET.getlist("pay")) |
             Q(types__in=self.request.GET.getlist("type"))
-        ).distinct().values("title", "tagline", "url", "poster")
+        ).distinct().values("title", "city1", "url")
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -91,7 +92,7 @@ class JsonFilterFreightsView(ListView):
         return JsonResponse({"freight": queryset}, safe=False)
 
 class AddStarRating(View):
-    """Добавление рейтинга фильму"""
+    """Добавление рейтинга грузоперевозке"""
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         if x_forwarded_for:
@@ -113,7 +114,7 @@ class AddStarRating(View):
             return HttpResponse(status=400)
 
 class Search(ListView):
-    """Поиск фильмов"""
+    """Поиск грузов"""
     paginate_by = 3
 
     def get_queryset(self):

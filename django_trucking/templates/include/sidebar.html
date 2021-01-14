@@ -25,41 +25,21 @@
     <div class="left-side my-4">
         <h3 class="sear-head editContent" >Оплата</h3>
         <ul class="w3layouts-box-list">
-            {%for type in view.get_types%}
+            {%for pay in view.get_pays%}
             <li class="editContent" >
-                <input type="checkbox" class="checked" name="type" value="{{type.id}}">
-                <span class="span editContent" >{{type.name}}</span>
+                <input type="checkbox" class="checked" name="pay" value="{{pay.id}}">
+                <span class="span editContent" >{{pay.name}}</span>
             </li> 
             {%endfor%}        
         </ul>
     </div>
 
 
-    <div class="left-side my-4">
-        <h3 class="sear-head editContent" >Типы кузова</h3>
-        <ul class="w3layouts-box-list">
-            {%for type in view.get_types%}
-            <li class="editContent" >
-                <input type="checkbox" class="checked" name="type" value="{{type.id}}">
-                <span class="span editContent" >{{type.name}}</span>
-            </li> 
-            {%endfor%}        
-        </ul>
-    </div>
+  
 
     <!-- // preference -->
     <!-- discounts -->
-    <div class="left-side">
-        <h3 class="sear-head editContent" >Масса груза, т</h3>
-        <ul class="w3layouts-box-list">
-            {%for freight in view.get_years%}
-            <li class="editContent" >
-                <input type="checkbox" class="checked" name="year" value="{{freight.year}}">
-                <span class="span editContent" >{{freight.year}}</span>
-            </li>
-            {%endfor%}
-        </ul>
-    </div>
+  
     <button type="submit" class="btng">Найти</button>
     </form>
     <!-- //discounts -->

@@ -5,21 +5,23 @@ from django.urls import reverse
 
 
 class Category(models.Model):
-    """Категории"""
-    name = models.CharField("Категория", max_length=150)
+    """Типы кузова"""
+    name = models.CharField("Тип кузова", max_length=150)
     description = models.TextField("Описание")
     url = models.SlugField(max_length=160, unique=True)
 
     def __str__(self):
         return self.name
 
+    
+
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        verbose_name = "Тип кузова"
+        verbose_name_plural = "Типы кузова"
 
 
 class Worker(models.Model):
-    """Диспетчеры и водители"""
+    """Директоры и диспетчеры"""
     name = models.CharField("Имя", max_length=100)
     age = models.PositiveSmallIntegerField("Возраст", default=0)
     description = models.TextField("Описание")
@@ -32,12 +34,12 @@ class Worker(models.Model):
         return reverse('worker_detail', kwargs={"slug": self.name})
 
     class Meta:
-        verbose_name = "Диспетчеры и водители"
-        verbose_name_plural = "Диспетчеры и водители"
+        verbose_name = "Директоры и диспетчеры"
+        verbose_name_plural = "Директоры и диспетчеры"
 
 
 class Type(models.Model):
-    """Типы"""
+    """Типы загрузки"""
     name = models.CharField("Имя", max_length=100)
     description = models.TextField("Описание")
     url = models.SlugField(max_length=160, unique=True)
@@ -46,32 +48,47 @@ class Type(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Типы"
-        verbose_name_plural = "Типы"
+        verbose_name = "Типы загрузки"
+        verbose_name_plural = "Типы загрузки"
+
+class Pays(models.Model):
+    """Типы оплаты"""
+    name = models.CharField("Имя", max_length=100)
+    description = models.TextField("Описание")
+    url = models.SlugField(max_length=160, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Тип оплаты"
+        verbose_name_plural = "Типы оплаты"
+
 
 
 class Freight(models.Model):
     """Грузоперевозка"""
     title = models.CharField("Название", max_length=100)
-    tagline = models.CharField("Слоган", max_length=100, default='')
+    city1 = models.CharField("Загрузка", max_length=100, default='')
     description = models.TextField("Описание")
-    poster = models.ImageField("Постер", upload_to="freights/")
-    year = models.PositiveSmallIntegerField("Дата загрузки", default=2021)
-    city = models.CharField("Загрузка", max_length=30)
+
+   
+    city2 = models.CharField("Выгрузка", max_length=100, default='')
     directors = models.ManyToManyField(Worker, verbose_name="диспетчер", related_name="freight_director")
-    workers = models.ManyToManyField(Worker, verbose_name="водители", related_name="freight_worker")
+    workers = models.ManyToManyField(Worker, verbose_name="директор", related_name="freight_worker")
     types = models.ManyToManyField(Type, verbose_name="типы")
-    world_premiere = models.DateField("Дата выгрузки", default=date.today)
-    budget = models.PositiveIntegerField("Тариф", default=0,
-                                         help_text="указывать сумму в долларах")
-    fees_in_usa = models.PositiveIntegerField(
-        "Сборы в США", default=0, help_text="указывать сумму в долларах"
+    pays = models.ManyToManyField(Pays, verbose_name="типы оплаты")
+    date_to = models.DateField("Дата загрузки", default=date.today)
+    date_off = models.DateField("Дата выгрузки", default=date.today)
+
+    weight = models.PositiveIntegerField(
+        "Масса груза", default=0, help_text="указывать в тоннах"
     )
-    fess_in_world = models.PositiveIntegerField(
-        "Сборы в мире", default=0, help_text="указывать сумму в долларах"
+    sum = models.PositiveIntegerField(
+        "Ставка", default=0, help_text="указывать сумму в рублях"
     )
     category = models.ForeignKey(
-        Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True
+        Category, verbose_name="Тип кузова", on_delete=models.SET_NULL, null=True
     )
     url = models.SlugField(max_length=130, unique=True)
     draft = models.BooleanField("Черновик", default=False)

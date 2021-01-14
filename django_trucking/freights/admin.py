@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Category, Type, Freight, Details, Worker, Rating, RatingStar, Reviews
+from .models import Category, Type, Freight, Details, Worker, Rating, RatingStar, Reviews, Pays
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
@@ -16,12 +16,12 @@ class FreightAdminForm(forms.ModelForm):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    """Категории"""
+    """Типы кузова"""
     list_display = ("id",  "name", "url")
     list_display_links = ("name",)
 
 class ReviewInline(admin.TabularInline):
-    """Отзывы на странице фильма"""
+    """Отзывы на странице грузоперевозки"""
     model = Reviews
     extra = 1
     readonly_fields = ("name", "email")
@@ -34,7 +34,7 @@ class DetailsInline(admin.TabularInline):
 @admin.register(Freight)
 class FreightAdmin(admin.ModelAdmin):
     list_display = ("title", "category", "url", "draft")
-    list_filter = ("category", "year")
+    list_filter = ("types", "category")
     search_fields = ("title", "category__name")
     inlines = [ DetailsInline, ReviewInline]
     form = FreightAdminForm
@@ -44,20 +44,20 @@ class FreightAdmin(admin.ModelAdmin):
     actions = ["publish", "unpublish"]
     fieldsets = (
         (None, {
-            "fields": (("title", "tagline"),)
+            "fields": (("title", "city1", "city2"),)
         }),
         (None, {
-            "fields": ("description", "poster")
+            "fields": ("description",)
         }),
         (None, {
-            "fields": (("year", "world_premiere"),)
+            "fields": (("date_to", "date_off"),)
         }),
         ("Workers", {
             "classes": ("collapse",),
-            "fields": (("workers", "directors", "types", "category"),)
+            "fields": (("workers", "directors", "types", "pays", "category"),)
         }),
         (None, {
-            "fields": (("budget", "fees_in_usa", "fess_in_world"),)
+            "fields": (("weight", "sum"),)
         }),
         ("Options", {
             "fields": (("url", "draft"),)
@@ -98,13 +98,17 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Type)
 class TypeAdmin(admin.ModelAdmin):
-    """Типы"""
+    """Типы загрузки"""
     list_display = ("name", "url")
 
+@admin.register(Pays)
+class PaysAdmin(admin.ModelAdmin):
+    """Типы оплаты"""
+    list_display = ("name", "url")
 
 @admin.register(Worker)
 class WorkerAdmin(admin.ModelAdmin):
-    """Водители"""
+    """Директоры"""
     list_display = ("name", "age", "get_image")
     readonly_fields = ("get_image",)
     def get_image(self, obj):
@@ -119,7 +123,7 @@ class RatingAdmin(admin.ModelAdmin):
 
 @admin.register(Details)
 class DetailsAdmin(admin.ModelAdmin):
-    """Детали из фильма"""
+    """Детали из грузоперевозок"""
     list_display = ("title", "freight")
 
 

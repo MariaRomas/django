@@ -18,38 +18,39 @@
                                 {{freight.title}}</h3>
                             <h5 class="editContent"></h5>
                             <ul>
-                                <li style="list-style: none"><span><b>Загрузка:</b> {{freight.city}}</span></li>
-                                <li style="list-style: none"><span><b>Выгрузка:</b> {{freight.city}}</span>
-                                <li style="list-style: none"><span><b>Масса груза:</b> {{freight.year}} т</span></li>
-                                <li style="list-style: none"><span><b>Тип загрузки:</b> {{freight.type}}</span>
+                                <li style="list-style: none"><span><b>Загрузка:</b> {{freight.city1}}</span></li>
+                                <li style="list-style: none"><span><b>Выгрузка:</b> {{freight.city2}}</span>
+                                <li style="list-style: none"><span><b>Масса груза:</b> {{freight.weight}} т</span></li>
+                                <li style="list-style: none"><span><b>Тип загрузки:</b>{% for type in freight.types.all %}
+                                    {{type.name}}
+                                {%endfor%}</span>
                                 </li>
-                                <li style="list-style: none"><span><b>Тип кузова:</b> {{freight.tagline}}</span>
+                                <li style="list-style: none"><span><b>Тип кузова:</b> {{freight.category}}</span>
                                 </li>
-                                <li style="list-style: none"><span><b>Оплата:</b> {{freight.tagline}}</span>
+                                <li style="list-style: none"><span><b>Оплата:</b> {% for pay in freight.pays.all %}
+                                    {{pay.name}}
+                                {%endfor%}</span>
                                 </li>
                                 <li style="list-style: none">
-                                    <span><b>Компания:</b>{% for director in freight.directors.all %}
+                                    <span><b>Диспетчер:</b>{% for director in freight.directors.all %}
                                         <a href="{{ director.get_absolute_url }}">
                                             {{ director.name }}
                                         </a>
                                     {%endfor%} </span></li>
-                                <li style="list-style: none"><span><b>Диспетчер:</b> 
+                                <li style="list-style: none"><span><b>Директор:</b> 
                                     {% for worker in freight.workers.all %}
                                     <a href="{{ worker.get_absolute_url }}">
                                         {{ worker.name }}
                                 </a>
                                 {%endfor%}
                                 </span></li>
-                                <li style="list-style: none"><span><b>Тип загрузкии:</b> {% for type in freight.types.all %}
-                                    {{type.name}}
-                                {%endfor%}</span>
+                               
+                                <li style="list-style: none"><span><b>Дата загрузки:</b> {{freight.date_to}}</span>
                                 </li>
-                                <li style="list-style: none"><span><b>Дата загрузки:</b> {{freight.world_premiere}}</span>
-                                </li>
-                                <li style="list-style: none"><span><b>Дата выгрузки:</b> {{freight.fees_in_world}}</span>
+                                <li style="list-style: none"><span><b>Дата выгрузки:</b> {{freight.date_off}}</span>
                                 </li>
                                 <li style="list-style: none">
-                                    <span><b>Ставка:</b> {{freight.budget}} руб.</span></li>
+                                    <span><b>Ставка:</b> {{freight.sum}} руб.</span></li>
                                 <li style="list-style: none">
                                    
                                 
@@ -65,7 +66,7 @@
                                                 <label for="rating{{ v }}">{{ k }}</label>
                                             {% endfor %}
                                         </span>
-                                        <span class="editContent">4.0</span>
+                                      
                                     </form>
                                 </li>
                            
@@ -75,15 +76,16 @@
 
                         <h3 class="shop-sing editContent" >
                             О грузоперевозке {{freight.title}}</h3>
-                            <ul style="width: 100%;">
+                            <ul style="width: 100%; ">
                                 {% for title in freight.details_set.all %}
-                                <li style="list-style: none"><span><b> {{title}}</b></span></li>
-                            </ul>
-                                <p class="editContent" style="outline: none; cursor: inherit;">{{title.description}}</p>
-                            {%endfor%}
+                                <li style="list-style: none">    <span><b> {{title}}</b></span></li>
+                           
+                                <li style="list-style: none">   <p class="editContent" style="outline: none; cursor: inherit;">{{title.description}}</p></li>
+                        </ul>
+                            {%endfor%}<br/>
          
                         
-                        <p class="editContent" style="outline: none; cursor: inherit;">{{freight.description|safe}}</p>
+                        <p class="editContent" style="outline: none; cursor: inherit; width:100%">{{freight.description|safe}}</p>
                         
                        
                     </div>
