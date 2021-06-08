@@ -1,6 +1,6 @@
 {%load freight_tag%}
 
-<div class="search-bar w3layouts-newsletter">
+<div class="search-bar w3layouts-newsletter" style="margin-top:60px">
     <h3 class="sear-head editContent">Поиск грузоперевозок</h3>
     <form action="{% url 'search' %}" method="get" class="d-flex editContent">
         <input type="search" placeholder="Поиск..." name="q" class="form-control" required="">
@@ -11,8 +11,9 @@
 </div>
     <form action="{% url 'filter' %}" method="get" name="filter">
     <!--preference -->
+    
     <div class="left-side my-4">
-        <h3 class="sear-head editContent" >Типы загрузки</h3>
+        <h3 class="sear-head editContent" >Типы загрузки/выгрузки</h3>
         <ul class="w3layouts-box-list">
             {%for type in view.get_types%}
             <li class="editContent" >
@@ -23,7 +24,18 @@
         </ul>
     </div>
     <div class="left-side my-4">
-        <h3 class="sear-head editContent" >Оплата</h3>
+        <h3 class="sear-head editContent" >Типы кузова</h3>
+        <ul class="w3layouts-box-list">
+            {%for category in view.get_categories%}
+            <li class="editContent" >
+                <input type="checkbox" class="checked" name="type" value="{{category.id}}">
+                <span class="span editContent" >{{category.name}}</span>
+            </li> 
+            {%endfor%}        
+        </ul>
+    </div>
+    <div class="left-side my-4">
+        <h3 class="sear-head editContent" >Тип оплаты</h3>
         <ul class="w3layouts-box-list">
             {%for pay in view.get_pays%}
             <li class="editContent" >
@@ -101,4 +113,4 @@
     </div>-->
     <!-- //reviews -->
     <!-- deals -->
-   {%get_last_freights count=3%}
+   <!--{%get_last_freights count=3%}-->

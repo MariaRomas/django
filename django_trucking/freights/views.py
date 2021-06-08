@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.base import View
-from .models import Freight, Category, Worker, Type, Rating, Pays
+from .models import Freight, Category, Worker, Type, Rating, Pays, Car, News
 from .forms import ReviewForm, RatingForm
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
@@ -15,15 +15,70 @@ class TypePay:
     def get_pays(self):
         return Pays.objects.all()
 
+    def get_categories(self):
+        return Category.objects.all()
+
+
+
+def index(request):
+    """
+    Функция отображения для домашней страницы сайта.
+    """
+    # Генерация "количеств" некоторых главных объектов
+   
+
+    # Отрисовка HTML-шаблона index.html с данными внутри
+    # переменной контекста context
+    return render(
+        request,
+        'freights/index.html',
+   
+    )
+
+def about(request):
+   
+    return render(
+        request,
+        'freights/about.html',
+   
+    )
+
+def contacts(request):
+   
+    return render(
+        request,
+        'freights/contacts.html',
+   
+    )
 
 class FreightsView(TypePay, ListView):
     """Список грузов"""
     model = Freight
     queryset = Freight.objects.filter(draft=False)
-    paginate_by = 5
+    paginate_by = 6
+    template_name = 'freights/freight_list.html'
+
+class CarsView(TypePay, ListView):
+    """Список авто"""
+    model = Car
+    template_name = 'freights/car_list.html'
+    queryset = Car.objects.all()
+
+class NewsView(ListView):
+    """Список новостей"""
+    model = News
+    template_name = 'freights/news_list.html'
+    queryset = News.objects.all()
+
+class NewsDetailView(DetailView):
+    """Полное описание """
+    model = News
+    slug_field = "url"
+
+    
 
 class AddStarRating(View):
-    """Добавление рейтинга грузоперевозке"""
+    """Добавление рейтинга грузоперевозки"""
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         if x_forwarded_for:
@@ -42,9 +97,11 @@ class FreightDetailView(TypePay, DetailView):
         context = super().get_context_data(**kwargs)
         context["star_form"] = RatingForm()
         return context
+
+  
     
 class AddReview(View):
-    """Отзывы"""
+    """Запросы"""
     def post(self, request, pk):
         form = ReviewForm(request.POST)
         freight = Freight.objects.get(id=pk)
@@ -52,9 +109,11 @@ class AddReview(View):
             form = form.save(commit=False)
             if request.POST.get("parent", None):
                 form.parent_id = int(request.POST.get("parent"))
-                form.freight = freight
-                form.save()
-                return redirect(freight.get_absolute_url())
+            form.freight = freight
+            form.save()
+            return redirect(freight.get_absolute_url())
+
+
 
 class WorkerView(TypePay, DetailView):
     """Вывод информации о работнике"""
@@ -64,11 +123,12 @@ class WorkerView(TypePay, DetailView):
 
 class FilterFreightsView(TypePay, ListView):
     """Фильтр грузоперевозок"""
-    paginate_by = 2
+    paginate_by = 6
     def get_queryset(self):
         queryset = Freight.objects.filter(
             Q(types__in=self.request.GET.getlist("type"))|
-            Q(pays__in=self.request.GET.getlist("pay"))
+            Q(pays__in=self.request.GET.getlist("pay"))|
+            Q(category__in=self.request.GET.getlist("pay"))
         ).distinct()
         return queryset
 
@@ -76,6 +136,7 @@ class FilterFreightsView(TypePay, ListView):
         context = super().get_context_data(*args, **kwargs)
         context["type"] = ''.join([f"type={x}&" for x in self.request.GET.getlist("type")])
         context["pay"] = ''.join([f"pay={x}&" for x in self.request.GET.getlist("pay")])
+        context["category"] = ''.join([f"category={x}&" for x in self.request.GET.getlist("category")])
         return context
 
 class JsonFilterFreightsView(ListView):
@@ -115,10 +176,11 @@ class AddStarRating(View):
 
 class Search(ListView):
     """Поиск грузов"""
-    paginate_by = 3
+    paginate_by = 6
+    
 
     def get_queryset(self):
-        return Freight.objects.filter(title__icontains=self.request.GET.get("q"))
+        return Freight.objects.filter(city1__icontains=self.request.GET.get("q"))
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

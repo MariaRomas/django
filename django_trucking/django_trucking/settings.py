@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'widget_tweaks',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,11 +43,11 @@ INSTALLED_APPS = [
     'freights',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'accounts.apps.AccountsConfig',
     'allauth',
-    'allauth.account',
-    
+    'allauth.account', 
 ]
-
+AUTH_USER_MODEL = 'accounts.User'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

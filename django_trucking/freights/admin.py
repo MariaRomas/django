@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Category, Type, Freight, Details, Worker, Rating, RatingStar, Reviews, Pays
+from .models import Category, Type, User, Freight, Details, Worker, Rating, RatingStar, Reviews, Pays, Status, Deal, Car, News
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
@@ -9,16 +9,19 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 class FreightAdminForm(forms.ModelForm):
     description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
-
+   
     class Meta:
         model = Freight
         fields = '__all__'
 
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """Типы кузова"""
-    list_display = ("id",  "name", "url")
+    list_display = ("name",   "url")
     list_display_links = ("name",)
+
+
 
 class ReviewInline(admin.TabularInline):
     """Отзывы на странице грузоперевозки"""
@@ -33,7 +36,8 @@ class DetailsInline(admin.TabularInline):
     
 @admin.register(Freight)
 class FreightAdmin(admin.ModelAdmin):
-    list_display = ("title", "category", "url", "draft")
+    
+    list_display = ("title", "category", "url", "draft", "author")
     list_filter = ("types", "category")
     search_fields = ("title", "category__name")
     inlines = [ DetailsInline, ReviewInline]
@@ -43,6 +47,7 @@ class FreightAdmin(admin.ModelAdmin):
     list_editable = ("draft",)
     actions = ["publish", "unpublish"]
     fieldsets = (
+       
         (None, {
             "fields": (("title", "city1", "city2"),)
         }),
@@ -57,13 +62,27 @@ class FreightAdmin(admin.ModelAdmin):
             "fields": (("workers", "directors", "types", "pays", "category"),)
         }),
         (None, {
-            "fields": (("weight", "sum"),)
+            "fields": (("weight", "volume", "sum"),)
         }),
         ("Options", {
             "fields": (("url", "draft"),)
         }),
     )
     
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super(FreightAdmin, self).get_queryset(request)
+        else:
+            qs = super(FreightAdmin, self).get_queryset(request)
+            return qs.filter(author=request.user)
+    
+    def save_model(self, request, obj, form, change):
+        freight = form.save(commit=False)
+        freight.author = request.user
+        freight.save()
+        super(FreightAdmin, self).save_model(request, obj, form, change)
+    
+
     def unpublish(self, request, queryset):
         """Снять с публикации"""
         row_update = queryset.update(draft=True)
@@ -84,7 +103,6 @@ class FreightAdmin(admin.ModelAdmin):
 
     publish.short_description = "Опубликовать"
     publish.allowed_permissions = ('change', )
-
     unpublish.short_description = "Снять с публикации"
     unpublish.allowed_permissions = ('change',)
 
@@ -105,6 +123,11 @@ class TypeAdmin(admin.ModelAdmin):
 class PaysAdmin(admin.ModelAdmin):
     """Типы оплаты"""
     list_display = ("name", "url")
+
+@admin.register(Status)
+class StatusAdmin(admin.ModelAdmin):
+    """Статусы"""
+    list_display = ("name1", "url")
 
 @admin.register(Worker)
 class WorkerAdmin(admin.ModelAdmin):
@@ -130,3 +153,42 @@ class DetailsAdmin(admin.ModelAdmin):
 admin.site.register(RatingStar)
 admin.site.site_title = "Грузоперевозки"
 admin.site.site_header = "Грузоперевозки"
+
+
+@admin.register(Deal)
+class DealAdmin(admin.ModelAdmin):
+    """Сделки"""
+    list_display = ("title1", "url")
+    fieldsets = (
+       
+        (None, {
+            "fields": (("title1", "customer", "driver"),)
+        }),
+        (None, {
+            "fields": ("freight",)
+        }),
+        (None, {
+            "fields": (("documents", "status"),)
+        }),
+        ("Options", {
+            "fields": (("url",),)
+        }),
+    )
+
+    def show_name():
+        customers = User.objects.filter(groups__name='customer')
+        return customers
+    
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    """Новости"""
+    list_display = ("title3", "url", "draft")
+   
+
+@admin.register(Car)
+class CarAdmin(admin.ModelAdmin):
+    """Авто"""
+    list_display = ("title2",  "category", "url")
+ 
+        
+    

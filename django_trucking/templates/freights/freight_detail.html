@@ -10,12 +10,13 @@
   
       
 {% block freight%}
-<div class="left-ads-display col-lg-8">
+<div class="left-ads-display col-lg-8" style="margin-top:60px">
                     <div class="row">
                         
                         <div class="desc1-right col-md-6 pl-lg-4">
                             <h3 class="editContent" style="outline: none; cursor: inherit;">
                                 {{freight.title}}</h3>
+                                <p> {{freight.author.get_full_name }}</p>
                             <h5 class="editContent"></h5>
                             <ul>
                                 <li style="list-style: none"><span><b>Загрузка:</b> {{freight.city1}}</span></li>
@@ -112,15 +113,29 @@
                                             >
                                             <label for="contactusername" class="editContent"
                                                    >Имя*</label>
-                                            <input type="text" class="form-control border" name="name"
+                                                   {% if user.is_authenticated %}
+                                                   <input type="text" class="form-control border" name="name" value="{{ user.first_name }} {{ user.last_name }}"
                                                    id="contactusername" required="">
-                                        </div>
-                                        <div class="col-sm-6 form-group ml-sm-3 editContent"
-                                            >
-                                            <label for="contactemail" class="editContent"
-                                                   >Email*</label>
-                                            <input type="email" class="form-control border" name="email"
-                                                   id="contactemail" required="">
+                                                </div>
+                                                <div class="col-sm-6 form-group ml-sm-3 editContent"
+                                                    >
+                                                    <label for="contactemail" class="editContent"
+                                                           >Email*</label>
+                                                    <input type="email" class="form-control border" name="email" value="{{ user.email }}"
+                                                           id="contactemail" required="">
+                                               {% else %}
+                                               <input type="text" class="form-control border" name="name" 
+                                               id="contactusername" required="">
+                                            </div>
+                                            <div class="col-sm-6 form-group ml-sm-3 editContent"
+                                                >
+                                                <label for="contactemail" class="editContent"
+                                                       >Email*</label>
+                                                <input type="email" class="form-control border" name="email"
+                                                       id="contactemail" required="">
+                                               {% endif %}
+                                            
+                                     
                                         </div>
                                     </div>
                                     
@@ -128,6 +143,7 @@
                                             class="mt-3 btn btng btn-success btn-block py-3"
                                             >Отправить
                                     </button>
+                                  
                                 </form>
                             </div>
                             <!--  //contact form grid ends here -->
@@ -145,6 +161,10 @@
                                 </p>
                                 <a href="#formReview"
                                    onclick="addReview('{{ review.name }}', '{{ review.id }}')">Ответить</a>
+                                   
+                                   {% if user.get_username|stringformat:'s' == freight.author|stringformat:'s' %}  <a href="/" 
+                                  >Принять</a>  {% endif %}
+                                     
                                 {% for rew in review.reviews_set.all %}
                                     <div class="media mt-5 editContent">
                                         <a class="pr-3" href="#">
@@ -167,6 +187,7 @@
                         document.getElementById("contactparent").value = id;
                         document.getElementById("contactcomment").innerText = `${name}, `
                     }
+                  
                 </script>
                     {% endblock freight%}
   

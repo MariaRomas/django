@@ -10,7 +10,7 @@
                     </a>
                 </h2>
                 <p class="editContent">
-                    Сайт разработан в рамках дисциплины "Инженерное проектирование". Тема является ВКР.
+                    Автоматизированная система поиска грузов для транспортных компаний
             
                 </p>
               
@@ -24,37 +24,29 @@
                 <div class="row mt-lg-4 bottom-w3layouts-sec-nav mx-0">
                     <div class="col-md-4 footer-grid_section_w3layouts">
                         <h3 class="footer-title text-uppercase editContent mb-lg-4 mb-3">
-                          Категории</h3>
+                            Карта сайта</h3>
                         <ul class="list-unstyled w3layouts-icons">
                             <li>
                                 <a href="/" class="editContent">Главная</a>
                             </li>
                             <li>
-                                <a href="/" class="editContent">Категории</a>
+                                <a href="/about" class="editContent">О нас</a>
                             </li>
                             <li>
-                                <a href="/" class="editContent">Контакты</a>
+                                <a href="{% url 'freights' %}" class="editContent">Грузы</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'cars' %}" class="editContent">Авто</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'news' %}" class="editContent">Новости</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'contacts' %}" class="editContent">Контакты</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-4 footer-grid_section_w3layouts">
-                        <!-- social icons -->
-                        <div class="agileinfo_social_icons">
-                            <h3 class="footer-title text-uppercase editContent mb-lg-4 mb-3">
-                               Карта сайта</h3>
-                            <ul class="list-unstyled w3layouts-icons">
-
-                                <li>
-                                    <a href="/about" class="editContent">О нас</a>
-                                </li>
-                                <li>
-                                    <a href="/text" class="editContent">Текстовая страница</a>
-                                </li>
-                             
-                            </ul>
-                        </div>
-                        <!-- social icons -->
-                    </div>
+                  
                     <div class="col-md-4 footer-grid_section_w3layouts my-md-0 my-5">
                         
                         <div class="contact-info">
@@ -79,7 +71,7 @@
                 <a href="#"> MARIA.</a>
             </p>
             <!-- move top icon -->
-            <a href="#home" class="move-top text-right col-md-2"><span
+            <a href="#logot" class="move-top text-right col-md-2"><span
                     class="fa fa-long-arrow-up" aria-hidden="true"></span></a>
             <!-- //move top icon -->
         </div>

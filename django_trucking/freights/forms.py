@@ -1,6 +1,5 @@
 from django import forms
-
-from .models import Reviews, Rating, RatingStar
+from .models import Reviews, Rating, RatingStar, Freight
 
 
 class ReviewForm(forms.ModelForm):
@@ -8,6 +7,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Reviews
         fields = ("name", "email", "text")
+        
 
 class RatingForm(forms.ModelForm):
     """Форма добавления рейтинга"""
@@ -18,3 +18,4 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
         fields = ("star",)
+
